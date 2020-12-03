@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Header from '../components/header'
+import { Emoji, EmojiWrapper } from '../components/emoji'
 
 import blogStyles from '../styles/blog.module.css'
 import sharedStyles from '../styles/shared.module.css'
@@ -68,30 +69,39 @@ export default ({ posts = [], preview }) => {
         )}
         {posts.map(post => {
           return (
-            <div className={blogStyles.postPreview} key={post.Slug}>
-              <h3>
-                <Link href="/blog/[slug]" as={getBlogLink(post.Slug)}>
-                  <div className={blogStyles.titleContainer}>
-                    {!post.Published && (
-                      <span className={blogStyles.draftBadge}>Draft</span>
-                    )}
-                    <a>{post.Page}</a>
-                  </div>
-                </Link>
-              </h3>
-              {post.Authors.length > 0 && (
-                <div className="authors">By: {post.Authors.join(' ')}</div>
-              )}
-              {post.Date && (
-                <div className="posted">Posted: {getDateStr(post.Date)}</div>
-              )}
-              <p>
-                {(!post.preview || post.preview.length === 0) &&
-                  'No preview available'}
-                {(post.preview || []).map((block, idx) =>
-                  textBlock(block, true, `${post.Slug}${idx}`)
+            <div
+              className={blogStyles.postPreview}
+              key={post.Slug}
+              style={{ display: 'flex' }}
+            >
+              <EmojiWrapper size={78} padding={16}>
+                <Emoji>{post.emoji ?? ''}</Emoji>
+              </EmojiWrapper>
+              <div>
+                <h3 style={{ marginTop: 8 }}>
+                  <Link href="/blog/[slug]" as={getBlogLink(post.Slug)}>
+                    <div className={blogStyles.titleContainer}>
+                      {!post.Published && (
+                        <span className={blogStyles.draftBadge}>Draft</span>
+                      )}
+                      <a>{post.Page}</a>
+                    </div>
+                  </Link>
+                </h3>
+                {post.Authors.length > 0 && (
+                  <div className="authors">By: {post.Authors.join(' ')}</div>
                 )}
-              </p>
+                {post.Date && (
+                  <div className="posted">Posted: {getDateStr(post.Date)}</div>
+                )}
+                <p style={{ marginTop: 0 }}>
+                  {(!post.preview || post.preview.length === 0) &&
+                    'No preview available'}
+                  {(post.preview || []).map((block, idx) =>
+                    textBlock(block, true, `${post.Slug}${idx}`)
+                  )}
+                </p>
+              </div>
             </div>
           )
         })}

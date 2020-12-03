@@ -27,6 +27,7 @@ export default async function loadTable(collectionBlock: any, isPosts = false) {
     if (!props) continue
     if (entry.value.content) {
       row.id = entry.value.id
+      row.emoji = entry.value.format?.page_icon
     }
 
     schemaKeys.forEach(key => {

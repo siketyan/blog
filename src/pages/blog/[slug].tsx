@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import Header from '../../components/header'
 import Heading from '../../components/heading'
 import components from '../../components/dynamic'
+import { Emoji, EmojiWrapper } from '../../components/emoji'
 import ReactJSXParser from '@zeit/react-jsx-parser'
 import blogStyles from '../../styles/blog.module.css'
 import { textBlock } from '../../lib/notion/renderers'
@@ -151,13 +152,20 @@ const RenderPost = ({ post, redirect, preview }) => {
         </div>
       )}
       <div className={blogStyles.post}>
-        <h1>{post.Page || ''}</h1>
-        {post.Authors.length > 0 && (
-          <div className="authors">By: {post.Authors.join(' ')}</div>
-        )}
-        {post.Date && (
-          <div className="posted">Posted: {getDateStr(post.Date)}</div>
-        )}
+        <div style={{ display: 'flex ' }}>
+          <EmojiWrapper size={92} padding={16}>
+            <Emoji>{post.emoji ?? ''}</Emoji>
+          </EmojiWrapper>
+          <div>
+            <h1>{post.Page || ''}</h1>
+            {post.Authors.length > 0 && (
+              <div className="authors">By: {post.Authors.join(' ')}</div>
+            )}
+            {post.Date && (
+              <div className="posted">Posted: {getDateStr(post.Date)}</div>
+            )}
+          </div>
+        </div>
 
         <hr />
 
