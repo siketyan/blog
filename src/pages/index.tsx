@@ -2,9 +2,6 @@ import Link from 'next/link'
 import Header from '../components/header'
 import { Emoji, EmojiWrapper } from '../components/emoji'
 
-import blogStyles from '../styles/blog.module.css'
-import sharedStyles from '../styles/shared.module.css'
-
 import { getBlogLink, getDateStr, postIsPublished } from '../lib/blog-helpers'
 import { textBlock } from '../lib/notion/renderers'
 import getNotionUsers from '../lib/notion/getNotionUsers'
@@ -49,41 +46,33 @@ export default ({ posts = [], preview }) => {
     <>
       <Header />
       {preview && (
-        <div className={blogStyles.previewAlertContainer}>
-          <div className={blogStyles.previewAlert}>
-            <b>Note:</b>
-            {` `}Viewing in preview mode{' '}
-            <Link href={`/api/clear-preview`}>
-              <button className={blogStyles.escapePreview}>Exit Preview</button>
-            </Link>
-          </div>
+        <div className="bg-blue-100 border-blue-400 border mb-10 p-3">
+          <b>Note:</b>
+          {` `}Viewing in preview mode{' '}
+          <Link href={`/api/clear-preview`}>
+            <button className="bg-blue-500 text-blue-50 ml-3 px-2 py-1">
+              Exit Preview
+            </button>
+          </Link>
         </div>
       )}
-      <div className={sharedStyles.layout}>
-        <h1>poem.xaml</h1>
-        <h2>しけちあのブログ</h2>
+      <div className="text-center mb-5">
+        <h1 className="text-5xl mb-2">poem.xaml</h1>
+        <h2 className="text-2xl text-gray-500">しけちあのブログ</h2>
       </div>
-      <div className={`${sharedStyles.layout} ${blogStyles.blogIndex}`}>
-        {posts.length === 0 && (
-          <p className={blogStyles.noPosts}>There are no posts yet</p>
-        )}
+      <div className="">
+        {posts.length === 0 && <p>There are no posts yet</p>}
         {posts.map(post => {
           return (
-            <div
-              className={blogStyles.postPreview}
-              key={post.Slug}
-              style={{ display: 'flex' }}
-            >
+            <div className="flex my-3" key={post.Slug}>
               <EmojiWrapper size={78} padding={16}>
                 <Emoji>{post.emoji ?? ''}</Emoji>
               </EmojiWrapper>
               <div>
-                <h3 style={{ marginTop: 8 }}>
+                <h3>
                   <Link href="/blog/[slug]" as={getBlogLink(post.Slug)}>
-                    <div className={blogStyles.titleContainer}>
-                      {!post.Published && (
-                        <span className={blogStyles.draftBadge}>Draft</span>
-                      )}
+                    <div className="text-xl">
+                      {!post.Published && <span className="mr-2">Draft:</span>}
                       <a>{post.Page}</a>
                     </div>
                   </Link>
