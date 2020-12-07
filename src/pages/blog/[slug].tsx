@@ -2,7 +2,6 @@ import Link from 'next/link'
 import fetch from 'node-fetch'
 import { useRouter } from 'next/router'
 import Header from '../../components/header'
-import Heading from '../../components/heading'
 import components from '../../components/dynamic'
 import { Emoji, EmojiWrapper } from '../../components/emoji'
 import ReactJSXParser from '@zeit/react-jsx-parser'
@@ -13,6 +12,17 @@ import React, { CSSProperties, useEffect } from 'react'
 import getBlogIndex from '../../lib/notion/getBlogIndex'
 import getNotionUsers from '../../lib/notion/getNotionUsers'
 import { getBlogLink, getDateStr } from '../../lib/blog-helpers'
+import {
+  Callout,
+  Divider,
+  H1,
+  H2,
+  H3,
+  Quote,
+  Text,
+  BulletedListItem,
+  BulletedList,
+} from '../../components/blocks'
 
 // Get the data for each blog post
 export async function getStaticProps({ params: { slug }, preview }) {
@@ -197,52 +207,41 @@ const RenderPost = ({ post, redirect, preview }) => {
           }
 
           if (listTagName && (isLast || !isList)) {
-            toRender.push(
-              React.createElement(
-                listTagName,
-                { key: listLastId! },
-                Object.keys(listMap).map(itemId => {
-                  if (listMap[itemId].isNested) return null
-
-                  const createEl = item =>
-                    React.createElement(
-                      components.li || 'ul',
-                      { key: item.key },
-                      item.children,
-                      item.nested.length > 0
-                        ? React.createElement(
-                            components.ul || 'ul',
-                            { key: item + 'sub-list' },
-                            item.nested.map(nestedId =>
-                              createEl(listMap[nestedId])
-                            )
-                          )
-                        : null
-                    )
-                  return createEl(listMap[itemId])
-                })
+            const createItem = item => {
+              return (
+                <BulletedListItem>
+                  {item.children}
+                  {item.nested.length > 0 && (
+                    <BulletedList nested={true}>
+                      {item.nested.map(nestedId =>
+                        createItem(listMap[nestedId])
+                      )}
+                    </BulletedList>
+                  )}
+                </BulletedListItem>
               )
-            )
+            }
+
+            const items = Object.keys(listMap).map(itemId => {
+              const item = listMap[itemId]
+              if (item.isNested) return null
+              return createItem(item)
+            })
+
             listMap = {}
             listLastId = null
             listTagName = null
-          }
 
-          const renderHeading = (Type: string | React.ComponentType) => {
-            toRender.push(
-              <Heading key={id}>
-                <Type key={id}>{textBlock(properties.title, true, id)}</Type>
-              </Heading>
-            )
+            return <BulletedList>{items}</BulletedList>
           }
 
           switch (type) {
             case 'page':
             case 'divider':
-              break
+              return <Divider />
             case 'text':
               if (properties) {
-                toRender.push(textBlock(properties.title, false, id))
+                return <Text>{properties.title}</Text>
               }
               break
             case 'image':
@@ -332,14 +331,11 @@ const RenderPost = ({ post, redirect, preview }) => {
               break
             }
             case 'header':
-              renderHeading('h1')
-              break
+              return <H1>{properties.title}</H1>
             case 'sub_header':
-              renderHeading('h2')
-              break
+              return <H2>{properties.title}</H2>
             case 'sub_sub_header':
-              renderHeading('h3')
-              break
+              return <H3>{properties.title}</H3>
             case 'code': {
               if (properties.title) {
                 const content = properties.title[0][0]
@@ -370,28 +366,16 @@ const RenderPost = ({ post, redirect, preview }) => {
             }
             case 'quote': {
               if (properties.title) {
-                toRender.push(
-                  React.createElement(
-                    components.blockquote,
-                    { key: id },
-                    properties.title
-                  )
-                )
+                return <Quote>{properties.title}</Quote>
               }
               break
             }
             case 'callout': {
-              toRender.push(
-                <div className="callout" key={id}>
-                  {value.format?.page_icon && (
-                    <div>{value.format?.page_icon}</div>
-                  )}
-                  <div className="text">
-                    {textBlock(properties.title, true, id)}
-                  </div>
-                </div>
+              return (
+                <Callout icon={value.format?.page_icon}>
+                  {properties.title}
+                </Callout>
               )
-              break
             }
             case 'tweet': {
               if (properties.html) {
