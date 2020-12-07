@@ -10,7 +10,6 @@ export const Emoji = ({ children }) => {
           font-family: 'Apple Color Emoji', 'Segoe UI Emoji', NotoColorEmoji,
             'Noto Color Emoji', 'Segoe UI Symbol', 'Android Emoji', EmojiSymbols,
             sans-serif;
-          line-height: 1em;
         }
       `}</style>
     </>
@@ -26,6 +25,7 @@ export const EmojiWrapper = ({ children, size, padding }) => {
           width: size,
           fontSize: size - padding * 2,
           padding: padding,
+          lineHeight: 1,
         }}
       >
         {children}

@@ -2,7 +2,6 @@ import Link from 'next/link'
 import Head from 'next/head'
 import ExtLink from './ext-link'
 import { useRouter } from 'next/router'
-import styles from '../styles/header.module.css'
 
 const navItems: { label: string; page?: string; link?: string }[] = [
   { label: 'Blog', page: '/' },
@@ -16,7 +15,7 @@ export default ({ titlePre = '' }) => {
   const { pathname } = useRouter()
 
   return (
-    <header className={styles.header}>
+    <header>
       <Head>
         <title>{titlePre ? `${titlePre} |` : ''} poem.xaml</title>
         <meta name="description" content="しけちあのブログ" />
@@ -26,9 +25,9 @@ export default ({ titlePre = '' }) => {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:image" content={ogImageUrl} />
       </Head>
-      <ul>
+      <ul className="flex justify-center mb-10">
         {navItems.map(({ label, page, link }) => (
-          <li key={label}>
+          <li key={label} className="p-3">
             {page ? (
               <Link href={page}>
                 <a className={pathname === page ? 'active' : undefined}>
