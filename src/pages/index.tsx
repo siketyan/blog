@@ -60,7 +60,7 @@ export default ({ posts = [], preview }) => {
         <h1 className="text-5xl mb-2">poem.xaml</h1>
         <h2 className="text-2xl text-gray-500">しけちあのブログ</h2>
       </div>
-      <div className="">
+      <div className="mt-10">
         {posts.length === 0 && <p>There are no posts yet</p>}
         {posts.map(post => {
           return (
