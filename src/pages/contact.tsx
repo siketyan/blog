@@ -27,7 +27,7 @@ const contacts: IContact[] = [
 export default () => (
   <>
     <Header titlePre="Contact" />
-    <div>
+    <div className="bg-white shadow-lg rounded-lg p-10">
       <div className="text-center m-3">
         <img
           className="w-24 h-24 inline-block"

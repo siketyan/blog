@@ -64,7 +64,10 @@ export default ({ posts = [], preview }) => {
         {posts.length === 0 && <p>There are no posts yet</p>}
         {posts.map(post => {
           return (
-            <div className="flex my-3" key={post.Slug}>
+            <div
+              className="flex my-3 p-4 bg-white shadow-md rounded-lg"
+              key={post.Slug}
+            >
               <EmojiWrapper size={78} padding={16}>
                 <Emoji>{post.emoji ?? ''}</Emoji>
               </EmojiWrapper>
