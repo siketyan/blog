@@ -161,18 +161,28 @@ const RenderPost = ({ post, redirect, preview }) => {
         </div>
       )}
       <article className="bg-white shadow-lg rounded-lg p-10">
-        <div className="flex">
-          <EmojiWrapper size={92} padding={16}>
+        <div className="flex pb-3">
+          <EmojiWrapper size={80} padding={14}>
             <Emoji>{post.emoji ?? ''}</Emoji>
           </EmojiWrapper>
           <div>
-            <h1 className="text-3xl">{post.Page || ''}</h1>
-            {post.Authors.length > 0 && (
-              <div className="authors">By: {post.Authors.join(' ')}</div>
-            )}
-            {post.Date && (
-              <div className="posted">Posted: {getDateStr(post.Date)}</div>
-            )}
+            <h1 className="text-4xl font-bold">{post.Page || ''}</h1>
+            <dl className="flex text-gray-500 text-sm uppercase">
+              {post.Authors.length > 0 && (
+                <>
+                  <dt className="mr-1">By:</dt>
+                  <dd className="mr-2">{post.Authors.join(' ')}</dd>
+                </>
+              )}
+            </dl>
+            <dl className="flex text-gray-500 text-sm uppercase">
+              {post.Date && (
+                <>
+                  <dt className="mr-1">Posted:</dt>
+                  <dd className="mr-2">{getDateStr(post.Date)}</dd>
+                </>
+              )}
+            </dl>
           </div>
         </div>
 

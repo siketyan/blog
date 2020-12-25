@@ -76,17 +76,27 @@ export default ({ posts = [], preview }) => {
                   <Link href="/blog/[slug]" as={getBlogLink(post.Slug)}>
                     <div className="text-xl">
                       {!post.Published && <span className="mr-2">Draft:</span>}
-                      <a>{post.Page}</a>
+                      <a href="#" className="font-bold">
+                        {post.Page}
+                      </a>
                     </div>
                   </Link>
                 </h3>
-                {post.Authors.length > 0 && (
-                  <div className="authors">By: {post.Authors.join(' ')}</div>
-                )}
-                {post.Date && (
-                  <div className="posted">Posted: {getDateStr(post.Date)}</div>
-                )}
-                <p style={{ marginTop: 0 }}>
+                <dl className="flex text-gray-500 text-sm uppercase">
+                  {post.Authors.length > 0 && (
+                    <>
+                      <dt className="mr-1">By:</dt>
+                      <dd className="mr-2">{post.Authors.join(' ')}</dd>
+                    </>
+                  )}
+                  {post.Date && (
+                    <>
+                      <dt className="mr-1">Posted:</dt>
+                      <dd className="mr-2">{getDateStr(post.Date)}</dd>
+                    </>
+                  )}
+                </dl>
+                <p className="mt-1">
                   {(!post.preview || post.preview.length === 0) &&
                     'No preview available'}
                   {(post.preview || []).map((block, idx) =>
