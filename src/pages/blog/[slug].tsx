@@ -160,7 +160,7 @@ const RenderPost = ({ post, redirect, preview }) => {
           </Link>
         </div>
       )}
-      <article>
+      <article className="bg-white shadow-lg rounded-lg p-10">
         <div className="flex">
           <EmojiWrapper size={92} padding={16}>
             <Emoji>{post.emoji ?? ''}</Emoji>
