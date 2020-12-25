@@ -76,7 +76,9 @@ export default ({ posts = [], preview }) => {
                   <Link href="/blog/[slug]" as={getBlogLink(post.Slug)}>
                     <div className="text-xl">
                       {!post.Published && <span className="mr-2">Draft:</span>}
-                      <a>{post.Page}</a>
+                      <a href="#" className="font-bold">
+                        {post.Page}
+                      </a>
                     </div>
                   </Link>
                 </h3>
