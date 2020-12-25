@@ -161,8 +161,8 @@ const RenderPost = ({ post, redirect, preview }) => {
         </div>
       )}
       <article className="bg-white shadow-lg rounded-lg p-10">
-        <div className="flex">
-          <EmojiWrapper size={92} padding={16}>
+        <div className="flex pb-3">
+          <EmojiWrapper size={80} padding={14}>
             <Emoji>{post.emoji ?? ''}</Emoji>
           </EmojiWrapper>
           <div>
